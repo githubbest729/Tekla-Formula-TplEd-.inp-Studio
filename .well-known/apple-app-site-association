@@ -1,0 +1,23 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "TEAMID0000.io.github.githubbest729.teklastudio"
+        ],
+        "components": [
+          {
+            "/": "/*",
+            "comment": "Matches all routes for Tekla Studio PWA"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "TEAMID0000.io.github.githubbest729.teklastudio"
+    ]
+  }
+}
