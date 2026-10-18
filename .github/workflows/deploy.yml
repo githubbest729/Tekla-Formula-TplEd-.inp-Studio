@@ -1,0 +1,73 @@
+name: Validate & Deploy Tekla Studio PWA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Syntax & PWA Shell Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check service-worker.js
+          node --check sw-register.js
+          node --check workbox-config.js
+          node --check js/db.js
+          node --check js/editor.js
+          node --check js/validator.js
+          node --check js/templates.js
+          node --check js/tag-converter.js
+
+      - name: Validate JSON & Web App Manifest
+        run: |
+          node -e '
+            const fs = require("fs");
+            for (const f of ["manifest.webmanifest", ".well-known/assetlinks.json", ".well-known/apple-app-site-association"]) {
+              if (fs.existsSync(f)) JSON.parse(fs.readFileSync(f, "utf8"));
+            }
+            console.log("All JSON/Manifest files are valid.");
+          '
+
+      - name: Verify all Service Worker SHELL files exist
+        run: |
+          node -e '
+            const fs = require("fs");
+            const required = [
+              "index.html", "offline.html", "404.html", "privacy.html",
+              "style.css", "app.js", "sw-register.js",
+              "js/editor.js", "js/validator.js", "js/templates.js", "js/tag-converter.js", "js/db.js",
+              "manifest.webmanifest", "browserconfig.xml",
+              "icons/icon-192.png.svg", "icons/icon-512.png.svg",
+              "icons/icon-maskable-192.png.svg", "icons/icon-maskable-512.png.svg",
+              "icons/apple-touch-icon.png.svg", "icons/favicon.ico.svg"
+            ];
+            const missing = required.filter(f => !fs.existsSync(f));
+            if (missing.length) {
+              console.error("Missing SHELL files:", missing);
+              process.exit(1);
+            }
+            console.log("All 20 Service Worker SHELL files verified.");
+          '
