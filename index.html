@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tekla Studio PWA: Formula, TplEd &amp; .inp Workbench</title>
+<meta name="description" content="Offline workbench for Tekla Structures detailers: write, format, validate and store Custom Component formulas, Template Editor scripts and objects.inp attributes.">
+<meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tekla Studio">
+<meta name="application-name" content="Tekla Studio">
+<meta name="msapplication-config" content="browserconfig.xml">
+<meta name="msapplication-TileColor" content="#0f172a">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png.svg">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.ico.svg">
+<link rel="stylesheet" href="style.css">
+<script src="sw-register.js" defer></script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to workbench</a>
+<div class="app">
+  <header class="topbar">
+    <button id="menu-btn" class="btn ghost menu-btn" aria-controls="sidebar" aria-expanded="false">Menu</button>
+    <div class="brand">
+      <img src="icons/icon-192.png.svg" alt="" width="28" height="28">
+      <strong>Tekla Studio</strong>
+      <span class="brand-sub">Formula, TplEd and .inp Workbench</span>
+    </div>
+    <div class="topbar-right">
+      <span id="net-status" class="pill ok">Online</span>
+      <span id="save-status" class="pill">Saved</span>
+      <button id="theme-btn" class="btn ghost" aria-label="Switch between dark and light theme">Theme</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav id="sidebar" class="sidebar" aria-label="Workbench sections">
+      <button class="nav-btn" data-view="editor">Editor</button>
+      <button class="nav-btn" data-view="templates">Snippet library</button>
+      <button class="nav-btn" data-view="converter">Converter</button>
+      <button class="nav-btn" data-view="library">Saved formulas</button>
+      <button class="nav-btn" data-view="settings">Settings</button>
+      <p class="side-note">Everything runs in your browser. Nothing is uploaded.</p>
+    </nav>
+    <div id="scrim" class="scrim" hidden></div>
+
+    <main id="main" tabindex="-1">
+      <!-- EDITOR -->
+      <section class="view" data-view-panel="editor" aria-label="Editor">
+        <div class="toolbar">
+          <div class="seg" role="group" aria-label="Editor mode">
+            <button class="seg-btn" data-mode="formula" aria-pressed="true">Formula f(P1)</button>
+            <button class="seg-btn" data-mode="tpled" aria-pressed="false">TplEd rules</button>
+            <button class="seg-btn" data-mode="inp" aria-pressed="false">objects.inp</button>
+          </div>
+          <div class="toolbar-actions">
+            <button id="btn-prettify" class="btn">Prettify</button>
+            <button id="btn-collapse" class="btn amber">Collapse and copy</button>
+            <button id="btn-copy" class="btn">Copy</button>
+            <button id="btn-save" class="btn primary">Save formula</button>
+          </div>
+        </div>
+        <div id="split" class="split">
+          <div class="pane pane-code"><div id="editor-host" class="editor-host"></div></div>
+          <div id="divider" class="divider" role="separator" aria-orientation="vertical" aria-label="Resize panels" tabindex="0"></div>
+          <aside class="pane pane-side">
+            <div class="tabs" role="tablist">
+              <button class="tab" role="tab" data-side-tab="diagnostics" aria-selected="true">Diagnostics <span id="diag-count" class="count">0</span></button>
+              <button class="tab" role="tab" data-side-tab="sandbox" aria-selected="false">Variable sandbox</button>
+            </div>
+            <div id="diag-panel" class="side-body"></div>
+            <div id="sandbox-panel" class="side-body" hidden></div>
+          </aside>
+        </div>
+        <div class="statusbar"><span id="mode-label">Custom Component Formula</span><span id="cursor-pos">Ln 1, Col 1</span></div>
+      </section>
+
+      <!-- TEMPLATES -->
+      <section class="view scroll" data-view-panel="templates" aria-label="Snippet library" hidden>
+        <h1>Snippet library</h1>
+        <div class="filters">
+          <label>Search<input id="tpl-search" type="search" placeholder="bolt, purlin, DIM_A, cover"></label>
+          <label>Category<select id="tpl-category"><option value="">All categories</option></select></label>
+        </div>
+        <div id="template-list" class="cards"></div>
+      </section>
+
+      <!-- CONVERTER -->
+      <section class="view scroll" data-view-panel="converter" aria-label="Converter" hidden>
+        <h1>Converter</h1>
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" data-conv-tab="tags" aria-selected="true">Tag translator</button>
+          <button class="tab" role="tab" data-conv-tab="mto" aria-selected="false">MTO sanitizer</button>
+        </div>
+        <div id="conv-tags" class="conv">
+          <p class="hint">Paste text containing tags such as [Assembly Mark]. Each tag becomes its Tekla attribute call.</p>
+          <div class="two-col">
+            <label>Input<textarea id="tag-input" rows="9" spellcheck="false" placeholder="[Assembly Mark] [Main Part Profile] [Rebar Bending Radius]"></textarea></label>
+            <label>Tekla output<textarea id="tag-output" rows="9" spellcheck="false" readonly></textarea></label>
+          </div>
+          <div class="row">
+            <button id="tag-run" class="btn primary">Translate tags</button>
+            <button id="tag-copy" class="btn">Copy output</button>
+            <span id="tag-summary" class="hint" aria-live="polite"></span>
+          </div>
+          <h2>Attribute dictionary</h2>
+          <label>Search terms<input id="dict-search" type="search" placeholder="weight, flange, bending radius"></label>
+          <ul id="dict-results" class="plain-list"></ul>
+          <h2>Your custom mappings</h2>
+          <div class="row wrap">
+            <label>Source tag<input id="map-source" type="text" placeholder="[Panel Zone]"></label>
+            <label>Tekla attribute<input id="map-attr" type="text" placeholder='GetValue("UDA.POUR_ZONE")'></label>
+            <button id="map-add" class="btn">Add mapping</button>
+          </div>
+          <ul id="mapping-list" class="plain-list"></ul>
+        </div>
+        <div id="conv-mto" class="conv" hidden>
+          <p class="hint">Paste fixed-width or delimited Tekla report output. Rows are trimmed, deduplicated and weights totaled.</p>
+          <label>Raw report<textarea id="mto-input" rows="9" spellcheck="false"></textarea></label>
+          <div class="row wrap">
+            <button id="mto-parse" class="btn primary">Clean report</button>
+            <button id="mto-csv" class="btn">Download CSV</button>
+            <button id="mto-csv-copy" class="btn">Copy CSV</button>
+            <button id="mto-md" class="btn">Copy Markdown</button>
+          </div>
+          <p id="mto-summary" class="hint" aria-live="polite"></p>
+          <div id="mto-table" class="table-wrap"></div>
+        </div>
+      </section>
+
+      <!-- LIBRARY -->
+      <section class="view scroll" data-view-panel="library" aria-label="Saved formulas" hidden>
+        <h1>Saved formulas</h1>
+        <div class="filters">
+          <label>Search<input id="lib-search" type="search" placeholder="name, tag or category"></label>
+          <div class="row">
+            <button id="ws-export" class="btn">Export workspace</button>
+            <button id="ws-import" class="btn">Import workspace</button>
+            <input id="ws-file" type="file" accept="application/json,.json" hidden>
+          </div>
+        </div>
+        <div id="library-list" class="cards"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view scroll" data-view-panel="settings" aria-label="Settings" hidden>
+        <h1>Settings</h1>
+        <label class="field">Theme
+          <select id="theme-select"><option value="dark">CAD Blueprint Dark</option><option value="light">Blueprint Light</option></select>
+        </label>
+        <p class="hint">Shortcuts: Ctrl+S saves, Ctrl+Shift+F prettifies, Ctrl+Shift+C collapses and copies.</p>
+        <h2>Local data</h2>
+        <p class="hint">Formulas, mappings and your editor session live in this browser's IndexedDB (TeklaStudioDB). Export a backup before clearing browser data.</p>
+        <button id="ws-reset" class="btn danger">Clear editor session</button>
+        <p class="hint"><a href="privacy.html">Privacy policy</a></p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+<dialog id="save-dialog">
+  <form method="dialog" class="dlg">
+    <h2>Save formula</h2>
+    <label>Name<input id="sv-name" type="text" required maxlength="80"></label>
+    <label>Category<input id="sv-cat" type="text" maxlength="40" placeholder="Steel, MBS, Rebar"></label>
+    <label>Tags (comma separated)<input id="sv-tags" type="text" maxlength="120"></label>
+    <div class="row end">
+      <button class="btn" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn primary" value="save">Save formula</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>
