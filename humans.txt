@@ -1,0 +1,9 @@
+/* TEAM */
+Developer & BIM Automation Engineer: githubbest729
+GitHub: https://github.com/githubbest729/Tekla-Formula-TplEd-.inp-Studio
+
+/* SITE */
+Last update: 2026-10-18
+Standards: HTML5, CSS3, ES6+ Modules, Web App Manifest, Service Worker, IndexedDB
+Components: Zero external runtime dependencies
+Software: Tekla Structures Companion Workbench
