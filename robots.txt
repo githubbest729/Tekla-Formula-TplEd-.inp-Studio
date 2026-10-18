@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /offline.html
+
+Sitemap: https://tekla-formula-tpled-inp-studio.vercel.app/sitemap.xml
