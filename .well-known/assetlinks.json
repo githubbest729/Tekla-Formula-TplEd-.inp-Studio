@@ -1,0 +1,22 @@
+---
+
+## 3. `.well-known/` Folder (2 Domain Association Files)
+
+These files support Android Trusted Web Activities (TWA) and iOS Universal Links, and are excluded from Service Worker navigation interception in `workbox-config.js`.
+
+### `.well-known/assetlinks.json`
+```json
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.githubbest729.teklastudio",
+      "sha256_cert_fingerprints": [
+        "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
+      ]
+    }
+  }
+]
