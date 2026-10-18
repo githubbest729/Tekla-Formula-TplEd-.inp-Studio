@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" role="img" aria-label="Tekla Studio">
+  <rect width="192" height="192" rx="36" fill="#0f172a" />
+  <rect x="8" y="8" width="176" height="176" rx="28" fill="#1e293b" stroke="#334155" stroke-width="2" />
+  <!-- Blueprint grid lines -->
+  <path d="M8 48h176M8 96h176M8 144h176M48 8v176M96 8v176M144 8v176" stroke="#22d3ee" stroke-opacity="0.08" stroke-width="1" />
+  <!-- Left & Right Code Brackets { } -->
+  <path d="M52 52c-10 0-14 4-14 14v18c0 8-4 12-12 12 8 0 12 4 12 12v18c0 10 4 14 14 14" fill="none" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M140 52c10 0 14 4 14 14v18c0 8 4 12 12 12-8 0-12 4-12 12v18c0 10-4 14-14 14" fill="none" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Center Structural Steel I-Beam -->
+  <path d="M68 56h56v14H103v52h21v14H68v-14h21V70H68V56z" fill="#22d3ee" />
+  <!-- Connection Bolt Dots -->
+  <circle cx="78" cy="63" r="3" fill="#0f172a" />
+  <circle cx="114" cy="63" r="3" fill="#0f172a" />
+  <circle cx="78" cy="129" r="3" fill="#0f172a" />
+  <circle cx="114" cy="129" r="3" fill="#0f172a" />
+</svg>

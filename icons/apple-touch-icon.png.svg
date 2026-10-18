@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" role="img" aria-label="Tekla Studio iOS Icon">
+  <rect width="180" height="180" fill="#0f172a" />
+  <rect x="8" y="8" width="164" height="164" rx="32" fill="#1e293b" stroke="#334155" stroke-width="2" />
+  <path d="M48 48c-9 0-13 4-13 13v17c0 7-4 12-11 12 7 0 11 5 11 12v17c0 9 4 13 13 13" fill="none" stroke="#fbbf24" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M132 48c9 0 13 4 13 13v17c0 7 4 12 11 12-7 0-11 5-11 12v17c0 9-4 13-13 13" fill="none" stroke="#fbbf24" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M64 52h52v13H96.5v50H116v13H64v-13h19.5V65H64V52z" fill="#22d3ee" />
+</svg>
