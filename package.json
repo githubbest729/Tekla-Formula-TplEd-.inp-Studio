@@ -1,0 +1,22 @@
+{
+  "name": "tekla-studio-pwa",
+  "version": "1.0.0",
+  "description": "Offline PWA workbench for Tekla Structures detailers: Formula, TplEd & objects.inp IDE, Tag Translator, and MTO Sanitizer.",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "check": "node --check app.js && node --check service-worker.js && node --check sw-register.js && node --check js/db.js && node --check js/editor.js && node --check js/validator.js && node --check js/templates.js && node --check js/tag-converter.js",
+    "build:sw": "npx workbox-cli generateSW workbox-config.js"
+  },
+  "keywords": [
+    "tekla",
+    "tekla-structures",
+    "bim",
+    "structural-steel",
+    "rebar-detailing",
+    "pwa",
+    "offline-first"
+  ],
+  "author": "githubbest729",
+  "license": "MIT"
+}
