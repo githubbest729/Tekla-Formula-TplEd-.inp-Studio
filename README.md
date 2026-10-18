@@ -1,6 +1,5 @@
 <div align="center">
 
-  <!-- Project Logo (renders from your /icons directory) -->
   <img src="icons/icon-192.png.svg" alt="Tekla Studio Logo" width="96" height="96" />
 
   # 🏗️ Tekla Studio PWA: Formula, TplEd & .inp Workbench
