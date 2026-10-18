@@ -28,9 +28,9 @@ a{color:var(--cyan)}
 .nav-btn[aria-current=page]{color:var(--cyan);border-left-color:var(--cyan);background:var(--surface)}
 .side-note{margin-top:auto;font-size:.8rem;color:var(--muted)}
 main{min-width:0;min-height:0;display:flex;flex-direction:column;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
-.view{flex:1;min-height:0;display:flex;flex-direction:column}
-.view[hidden]{display:none}
-.view.scroll{display:block;overflow:auto;padding:1rem 1.25rem 2rem;max-width:1100px;width:100%}
+.view { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.view.scroll { display: block; overflow: auto; padding: 1rem 1.25rem 2rem; max-width: 1100px; width: 100%; }
+.view[hidden], .view.scroll[hidden] { display: none !important; }
 .toolbar{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between;padding:.5rem .75rem;background:var(--surface);border-bottom:1px solid var(--line)}
 .toolbar-actions,.row{display:flex;gap:.5rem;align-items:center}
 .row.wrap{flex-wrap:wrap;align-items:flex-end}.row.end{justify-content:flex-end;margin-top:1rem}
